@@ -1,3 +1,4 @@
+// Transmit core State Machine
 module tx_sm #(
     parameter STATE_DEFER       = 4'h0,
     parameter STATE_IFG         = 4'h1,

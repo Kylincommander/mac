@@ -1,3 +1,4 @@
+// Receive core State Machine
 module rx #(
     parameter       STATE_IDLE          = 3'h0,
     parameter       STATE_PREAMBLE      = 3'h1,
