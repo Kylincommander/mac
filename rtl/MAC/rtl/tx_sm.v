@@ -33,6 +33,8 @@ module tx_sm #(
 
 localparam HALF_DUPLEX = 0;
 localparam FULL_DUPLEX = 1;
+localparam CRC_POLYNOMIAL   = 32'h04C11DB7;
+localparam CRC_SEED         = 32'hFFFFFFFF;
 
 reg [3:0] state;
 reg [3:0] next_state;
@@ -253,16 +255,17 @@ always @(state or next_state)
 // Submodule Initialisation
 
 // CRC
-crc U_crc(
+crc #(  .POLYNOMIAL(CRC_POLYNOMIAL),
+        .DATA_WIDTH(8),
+        .CRC_WIDTH(32),
+        .SEED(CRC_SEED)) 
+U_crc(
     .reset(reset),
     .clock(clock),
     .init(crc_init),
     .data(tx_data),
     .data_enable(crc_enable),
-    .read(crc_read),
-    .crc_out(crc_out),
-    .crc_end(crc_end),
-    .error(crc_error)
+    .crc_out(crc_out)
 );
 
 random_gen U_random_gen(
